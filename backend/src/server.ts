@@ -16,6 +16,19 @@ const app  = express()
 const PORT = parseInt(process.env.PORT ?? '3001')
 const UPLOAD_DIR = process.env.UPLOAD_DIR ?? 'uploads'
 
+// Block common attack probe paths
+app.use((req, res, next) => {
+  const BLOCKED = [
+    '/.env', '/config', '/config.json', '/.git',
+    '/wp-admin', '/phpmyadmin', '/phpinfo',
+    '/server-status', '/.htaccess', '/web.config',
+  ]
+  if (BLOCKED.some((path) => req.path.toLowerCase().startsWith(path))) {
+    res.status(404).json({ error: 'Not found.' })
+    return
+  }
+  next()
+})
 // ─── Security Middleware ──────────────────────────────────────────────────────
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allow media files from frontend

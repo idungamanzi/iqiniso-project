@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Company Information (singleton — enforced in service layer)
+model CompanyInfo {
+  id                         Int      @id @default(autoincrement()) // Force singleton via fixed ID
+  name                       String   @default("IQINISO Construction")
+  tagline                    String   @default("")
+  aboutShort                 String   @default("")
+  aboutFull                  String   @default("")
+  vision                     String   @default("")
+  mission                    String   @default("")
+  policy                     String   @default("")
+  yearEstablished            Int?
+  registrationNumber         String   @default("")
+  registrationCertificateUrl String   @default("")
+  physicalAddress            String   @default("")
+  email                      String   @default("")
+  phone                      String   @default("")
+  whatsapp                   String   @default("")
+  facebookUrl                String   @default("")
+  instagramUrl               String   @default("")
+  linkedinUrl                String   @default("")
+  twitterUrl                 String   @default("")
+  googleMapsEmbedUrl         String   @default("")
+  logoPath                   String?
+  updatedAt                  DateTime @updatedAt
+}
+
+// Services
+model Service {
+  id               Int      @id @default(autoincrement())
+  title            String
+  slug             String   @unique
+  description      String
+  shortDescription String   @default("")
+  imagePath        String?
+  icon             String   @default("")
+  isActive         Boolean  @default(true)
+  order            Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// Projects 
+model Project {
+  id               Int            @id @default(autoincrement())
+  title            String
+  slug             String         @unique
+  description      String
+  shortDescription String         @default("")
+  mainImagePath    String?
+  client           String         @default("")
+  value            Float?
+  location         String         @default("")
+  startDate        DateTime?
+  completionDate   DateTime?
+  status           String         @default("ONGOING")
+  isFeatured       Boolean        @default(false)
+  order            Int            @default(0)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  images           ProjectImage[]
+}
+
+model ProjectImage {
+  id        Int     @id @default(autoincrement())
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  imagePath String
+  caption   String  @default("")
+  order     Int     @default(0)
+}
+
+// Admin Users 
+model GalleryImage {
+  id        Int             @id @default(autoincrement())
+  title     String          @default("")
+  imagePath String
+  category  String          @default("GENERAL")
+  altText   String          @default("")
+  order     Int             @default(0)
+  isActive  Boolean         @default(true)
+  createdAt DateTime        @default(now())
+}
+
+// Contact Messages 
+model ContactMessage {
+  id         Int           @id @default(autoincrement())
+  name       String
+  email      String
+  phone      String        @default("")
+  subject    String
+  message    String
+  status     String        @default("UNREAD")
+  ipAddress  String        @default("")
+  userAgent  String        @default("")
+  adminNotes String        @default("")
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+// Admin Users
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

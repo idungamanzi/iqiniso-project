@@ -58,11 +58,11 @@ export default function AdminDashboard() {
         </div>
         <div className="admin-card__body" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
           {[
-            { href: '/admin/services',  label: '+ Add Service'  },
-            { href: '/admin/projects',  label: '+ Add Project'  },
-            { href: '/admin/gallery',   label: '+ Upload Photo' },
-            { href: '/admin/messages',  label: '📬 View Messages' },
-            { href: '/admin/company',   label: '🏢 Edit Company Info' },
+            { href: '/ad1qqin/services',  label: '+ Add Service'  },
+            { href: '/ad1qqin/projects',  label: '+ Add Project'  },
+            { href: '/ad1qqin/gallery',   label: '+ Upload Photo' },
+            { href: '/ad1qqin/messages',  label: '📬 View Messages' },
+            { href: '/ad1qqin/company',   label: '🏢 Edit Company Info' },
           ].map(({ href, label }) => (
             <a key={href} href={href} className="admin-btn admin-btn--ghost">{label}</a>
           ))}

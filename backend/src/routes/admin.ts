@@ -7,7 +7,21 @@ import { uploadService, uploadProject, uploadGallery, uploadCompany } from '../m
 import { serviceSchema, projectSchema, companyInfoSchema, loginSchema } from '../utils/schemas'
 import { slugify, fileUrl } from '../utils/helpers'
 import fs from 'fs'
+import rateLimit from 'express-rate-limit'
 
+// Add this before the router definition
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,  // 15 minutes
+  max: 5,                      // 5 attempts max
+  message: { error: 'Too many login attempts. Try again in 15 minutes.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+
+// Apply it to login only
+router.post('/login', loginLimiter, async (req, res, next) => {
+  // ... existing login code
+})
 const router = Router()
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────

@@ -37,7 +37,7 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
     }
 
     const secret = process.env.JWT_SECRET!
-    const token = jwt.sign({ adminId: admin.id, email: admin.email }, secret, { expiresIn: '8h' })
+    const token = jwt.sign({ adminId: admin.id, email: admin.email }, secret, { expiresIn: '4h' })
     res.json({ token, admin: { id: admin.id, email: admin.email, name: admin.name } })
   } catch (err) { next(err) }
 })

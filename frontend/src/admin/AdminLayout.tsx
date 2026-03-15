@@ -3,12 +3,12 @@ import { useAdminAuth } from './AuthContext'
 import toast from 'react-hot-toast'
 
 const NAV = [
-  { to: '/admin',           label: 'Dashboard',    icon: '📊', end: true },
-  { to: '/admin/company',   label: 'Company Info',  icon: '🏢' },
-  { to: '/admin/services',  label: 'Services',      icon: '🔧' },
-  { to: '/admin/projects',  label: 'Projects',      icon: '🏗️' },
-  { to: '/admin/gallery',   label: 'Gallery',       icon: '🖼️' },
-  { to: '/admin/messages',  label: 'Messages',      icon: '✉️' },
+  { to: '/ad1qqin',           label: 'Dashboard',    icon: '📊', end: true },
+  { to: '/ad1qqin/company',   label: 'Company Info',  icon: '🏢' },
+  { to: '/ad1qqin/services',  label: 'Services',      icon: '🔧' },
+  { to: '/ad1qqin/projects',  label: 'Projects',      icon: '🏗️' },
+  { to: '/ad1qqin/gallery',   label: 'Gallery',       icon: '🖼️' },
+  { to: '/ad1qqin/messages',  label: 'Messages',      icon: '✉️' },
 ]
 
 export default function AdminLayout() {

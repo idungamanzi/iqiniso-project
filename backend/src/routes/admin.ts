@@ -1,31 +1,27 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import rateLimit from 'express-rate-limit'
 import { prisma } from '../lib/prisma'
 import { requireAuth } from '../middleware/auth'
 import { uploadService, uploadProject, uploadGallery, uploadCompany } from '../middleware/upload'
 import { serviceSchema, projectSchema, companyInfoSchema, loginSchema } from '../utils/schemas'
 import { slugify, fileUrl } from '../utils/helpers'
 import fs from 'fs'
-import rateLimit from 'express-rate-limit'
 
-// Add this before the router definition
+const router = Router()
+
+// Strict rate limit: 5 login attempts per 15 minutes per IP
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,  // 15 minutes
-  max: 5,                      // 5 attempts max
+  windowMs: 15 * 60 * 1000,
+  max: 5,
   message: { error: 'Too many login attempts. Try again in 15 minutes.' },
   standardHeaders: true,
   legacyHeaders: false,
 })
 
-// Apply it to login only
-router.post('/login', loginLimiter, async (req, res, next) => {
-  // ... existing login code
-})
-const router = Router()
-
 // ─── Auth ─────────────────────────────────────────────────────────────────────
-router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/login', loginLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = loginSchema.parse(req.body)
 
